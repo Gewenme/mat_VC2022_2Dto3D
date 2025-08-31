@@ -1,0 +1,29 @@
+# Build artifacts
+*.exe
+*.obj
+*.o
+*.so
+*.dll
+*.lib
+*.a
+
+# Large binary output files from 3D reconstruction
+output/3D_reconstruction/*.ply
+output/3D_reconstruction/*.obj
+output/3D_reconstruction/*.pcd
+output/3D_reconstruction/*.xyz
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# IDE files
+*.vcxproj.user
+*.suo
+*.sdf
+.vs/
+
+# OS files
+.DS_Store
+Thumbs.db
