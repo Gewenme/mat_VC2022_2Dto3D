@@ -1,0 +1,18 @@
+=== Camera 1 Intrinsics ===
+Focal Length: [1694.0278, 1705.2259]
+Principal Point: [1641.8350, 1228.3972]
+Radial Distortion: [0.037496, -0.082654, 0.055028]
+Tangential Distortion: [0.002427, -0.001230]
+
+=== Camera 2 Intrinsics ===
+Focal Length: [2565.9883, 2565.1437]
+Principal Point: [1612.5422, 1248.4794]
+Radial Distortion: [0.193716, -0.675263, 0.697880]
+Tangential Distortion: [0.000103, -0.005575]
+
+=== Camera 2 Relative to Camera 1 ===
+Rotation Matrix:
+0.801442, -0.337215, -0.493940
+0.376913, 0.926019, -0.020637
+0.464357, -0.169633, 0.869251
+Translation Vector: [-253.159767, 76.250386, 122.919070]
