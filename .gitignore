@@ -1,0 +1,24 @@
+# Build artifacts
+build/
+*.o
+*.obj
+*.exe
+*.out
+*.bin
+
+# IDE files
+.vs/
+.vscode/
+*.vcxproj.user
+
+# Output directories (can be regenerated)
+output/
+
+# Temporary files
+*_backup.cpp
+*_broken.cpp
+*_old.cpp
+
+# System files
+.DS_Store
+Thumbs.db

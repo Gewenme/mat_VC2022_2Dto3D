@@ -1,4 +1,4 @@
-﻿#include "image_resize.h"
+#include "image_resize.h"
 #include "mono_calibration.h"
 #include "stereo_calibration.h"
 #include "stereo_reconstruction.h"
@@ -7,145 +7,97 @@
 
 #include <iostream>
 #include <fstream>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 int main() {
-
-
-
-  //   //Step 2: 角点检测与绘制
-  //  bool success3 = detectAndDrawCorners(
-  //      "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step1_imagresize/camL_resized",//左图像文件夹本地地址，已存在
-  //      "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step2_jiancejiaodian/left_jiaodian",//左图像文件夹输出地址，不存在会自动创建，存在则存入
-  //      9,    // 棋盘内角点数
-  //      6,    // 棋盘内角点数
-		//1.0f  // 图像放大比例因子，以防图像太小检测不到角点
-  //  );
-
-  //  if (success3) {
-  //      std::cout << "左相机角点检测完成!" << std::endl;
-  //  }
-  //  else {
-  //      std::cerr << "左相机角点检测失败!" << std::endl;
-  //      return -1;
-  //  }
-
-  //  bool success4 =detectAndDrawCorners(
-  //      "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step1_imagresize/camR_resized",//同理
-		//"G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step2_jiancejiaodian/right_jiaodian",  //同理
-  //      9,    // 棋盘内角点数
-  //      6,    // 棋盘内角点数
-		//1.0f  // 图像放大比例因子，以防图像太小检测不到角点
-  //  );
-
-  //  if (success4) {
-  //      std::cout << "右相机角点检测完成!" << std::endl;
-  //  }
-  //  else {
-  //      std::cerr << "右相机角点检测失败!" << std::endl;
-  //      return -1;
-  //  }
-
-
- //    //Step 3: 单目标定
- //   bool success1 = MonoCalibration::calibrateCamera(
- //       "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step2_jiancejiaodian/left_jiaodian/corner_data",//左图像文件夹本地地址，已存在
-	//	"G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step1_imagresize//camL_resized",//等待矫正的图像文件夹地址，用step1的图像
-	//	"G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step3_biaoding/left_calibration",//左图像标定参数文件输出地址，不存在会自动创建，存在则存入
- //       9,
- //       6,
- //       0.0082f,
- //       3264,
- //       2448,
- //       false,
- //       "  " // 单目标定输出校正后的图像地址，不存在会自动创建，存在则存入
- //   );
-
- //   if (success1) {
- //       std::cout << "左相机标定成功!" << std::endl;
- //       );
- //   } else {
- //       std::cerr << "左相机标定失败!" << std::endl;
- //       return -1;
- //   }
-	////同理右相机标定
- //   
- //   //。。。。。。。
-
-
-
-   //  双目标定
-   // StereoCalibration::StereoCalibrationResult stereoResult =
-   //     StereoCalibration::calibrateStereoCamera(
-   //         "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step2_jiancejiaodian/left_jiaodian/corner_data",//左图像文件夹本地地址，已存在
-   //         "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step2_jiancejiaodian/right_jiaodian/corner_data",//右图像文件夹本地地址，已存在
-   //         "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step4_shuangmu_biaoding/stereo_calibration",//双目标定参数文件输出地址，不存在会自动创建，存在则存入
-			//9, 6, 0.0082f,
-			//true,  // 使用有理畸变模型
-			//true   // 使用高精度模式
-   //     );
-
-   // if (stereoResult.success) {
-   //     std::cout << "双目标定成功，重投影误差: " << stereoResult.reprojectionError << std::endl;
-   // }
-   // else {
-   //     std::cerr << "双目标定失败" << std::endl;
-   // }
-
-
-
- // Step 5: 三维重建
-bool success = reconstruct3DModel(
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/picture_new/build_pic/left/6.jpg",
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/picture_new/build_pic/right/6.jpg",
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step5_3D_reconstruction/3D_reconstruction",
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step4_shuangmu_biaoding/stereo_calibration.xml", // XML格式的标定文件
-    0, // PLY格式
-    0, // 不生成网格
-    3, // 中等质量
-    true, // 使用颜色纹理
-    10.0f, // 最大深度10米
-    0.1f, // 最小深度0.1米
-    1, // 使用SGBM算法
-    2 // 使用双边滤波后处理
-);
-
-if (success) {
-    std::cout << "三维重建成功!" << std::endl;
-}
-else {
-    std::cerr << "三维重建失败!" << std::endl;
-    return -1;
-    //   //Step 6: 三维模型查看
-    //   
-
-
+    std::cout << "=== 双目视觉3D重建项目 ===" << std::endl;
+    
+    // Step 1: Corner detection with numbered corners display
+    std::cout << "\n--- Step 1: 角点检测与编号显示 ---" << std::endl;
+    
+    // First, check if we have point_pic directory, if not use build_pic
+    std::string leftInputFolder = "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/picture/point_pic/left";
+    std::string rightInputFolder = "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/picture/point_pic/right";
+    
+    // If point_pic doesn't exist, use build_pic for corner detection
+    if (!fs::exists(leftInputFolder)) {
+        leftInputFolder = "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/picture/build_pic/left";
+        rightInputFolder = "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/picture/build_pic/right";
+    }
+    
+    // Perform corner detection on calibration images
+    bool leftSuccess = CornerDetection::detectAndDrawCorners(
+        leftInputFolder,
+        "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/output/left_corners",
+        9, 6, 1.0f
+    );
+    
+    bool rightSuccess = CornerDetection::detectAndDrawCorners(
+        rightInputFolder, 
+        "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/output/right_corners",
+        9, 6, 1.0f
+    );
+    
+    if (!leftSuccess || !rightSuccess) {
+        std::cerr << "角点检测失败!" << std::endl;
+        return -1;
+    }
+    
+    std::cout << "角点检测完成!" << std::endl;
+    
+    // Step 2: Stereo calibration and comparison with MATLAB
+    std::cout << "\n--- Step 2: 双目标定与MATLAB对比 ---" << std::endl;
+    
+    StereoCalibration::StereoCalibrationResult stereoResult = 
+        StereoCalibration::calibrateStereoCamera(
+            "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/output/left_corners",
+            "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/output/right_corners",
+            "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/output/calibration",
+            9, 6, 8.2f, true, true
+        );
+    
+    if (stereoResult.success) {
+        std::cout << "双目标定成功，重投影误差: " << stereoResult.reprojectionError << std::endl;
+        
+        // Compare with MATLAB results
+        StereoCalibration::compareMatlabCalibration(stereoResult, 
+            "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/MyProject/Calibration_Data/camera_parameters.txt");
+    } else {
+        std::cerr << "双目标定失败!" << std::endl;
+        return -1;
+    }
+    
+    // Step 3: 3D reconstruction for specific image pair
+    std::cout << "\n--- Step 3: 三维重建 (left/1.jpg 和 right/1.jpg) ---" << std::endl;
+    
+    bool reconstructionSuccess = StereoReconstruction::reconstruct3DModel(
+        "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/picture/build_pic/left/1.jpg",
+        "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/picture/build_pic/right/1.jpg",
+        "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/output/reconstruction",
+        "/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/MyProject/Calibration_Data/stereo_calibration.xml",
+        0, // PLY格式
+        0, // 不生成网格
+        3, // 中等质量
+        true, // 使用颜色纹理
+        10.0f, // 最大深度10米
+        0.1f, // 最小深度0.1米
+        1, // 使用SGBM算法
+        2 // 使用双边滤波后处理
+    );
+    
+    if (reconstructionSuccess) {
+        std::cout << "三维重建成功!" << std::endl;
+        std::cout << "输出文件保存在: /home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/output/reconstruction" << std::endl;
+        std::cout << "- 深度图: depth_map.jpg" << std::endl;
+        std::cout << "- 残差图: residual_map.jpg" << std::endl;
+        std::cout << "- 矫正图: rectified_left.jpg, rectified_right.jpg" << std::endl;
+        std::cout << "- 点云模型: point_cloud.ply" << std::endl;
+    } else {
+        std::cerr << "三维重建失败!" << std::endl;
+        return -1;
+    }
+    
+    std::cout << "\n=== 所有处理完成! ===" << std::endl;
     return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
