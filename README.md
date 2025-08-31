@@ -1,6 +1,32 @@
 # mat\_VC2022\_2Dto3D
 
-step1，读取matlab.txt文件，这是matlab导出相关数据的代码。看相机内外参数是如何保存的,格式是什么，矩阵是否转置，单位是否合适
+## ✅ Step1 完成：MATLAB-OpenCV矩阵格式兼容性修正
 
-step2, 根据根据matlab导出的文件MyProject\\Calibration\_Data\\camera\_parameters.txt和MyProject\\Calibration\_Data\\stereo\_calibration.xml读取参数以及理解其意义后，创建一个三维重建c++程序，输入为picture\\build\_pic\\left\\6.jpg和picture\\build\_pic\\right\\1.jpg，保存文件夹地址，质量参数（1-5级），输出深度图，点云模型，残差图，矫正图（就像matlab双目标定矫正图一样）。如“效果图.jpg”那样
+已完成对matlab.txt文件的分析和修正，解决了相机内外参数保存格式、矩阵转置和单位一致性问题：
 
+### 主要修正内容：
+1. **内参矩阵格式修正**：修正了主点坐标(cx,cy)在MATLAB到OpenCV转换中的丢失问题
+2. **旋转矩阵修正**：移除了不必要的转置操作，确保坐标系一致性  
+3. **单位统一**：确认并维护毫米(平移向量)和像素(焦距、主点)的单位一致性
+4. **畸变系数顺序**：验证并确保符合OpenCV标准 [k1,k2,p1,p2,k3]
+
+### 修正前后对比：
+- **修正前**：内参矩阵主点坐标为(0,0)，导致三维重建失败
+- **修正后**：正确的主点坐标 Camera1(1641.8, 1228.4), Camera2(1612.5, 1248.5)
+
+### 相关文件：
+- `matlab代码.txt`: 修正后的MATLAB导出代码（含详细注释）
+- `MyProject/Calibration_Data/stereo_calibration.xml`: 修正后的OpenCV标定文件  
+- `MATLAB_OpenCV_Matrix_Conversion.md`: 详细的转换说明文档
+
+## Step2：三维重建程序
+
+根据修正后的标定参数文件创建三维重建C++程序：
+- **输入图像**：`picture/build_pic/left/6.jpg` 和 `picture/build_pic/right/1.jpg`
+- **输出内容**：深度图、点云模型、残差图、矫正图（如"效果图.jpg"所示）
+- **质量参数**：1-5级可调节
+
+### 单位和坐标系说明：
+- **距离单位**：毫米 (mm)
+- **像素单位**：焦距和主点坐标
+- **坐标系**：右手坐标系，与OpenCV标准一致
