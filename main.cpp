@@ -14,8 +14,8 @@ int main() {
 
   //   //Step 2: 角点检测与绘制
   //  bool success3 = detectAndDrawCorners(
-  //      "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step1_imagresize/camL_resized",//左图像文件夹本地地址，已存在
-  //      "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step2_jiancejiaodian/left_jiaodian",//左图像文件夹输出地址，不存在会自动创建，存在则存入
+  //      "picture/build_pic/left",//左图像文件夹本地地址，已存在
+  //      "output/corner_detection/left",//左图像文件夹输出地址，不存在会自动创建，存在则存入
   //      9,    // 棋盘内角点数
   //      6,    // 棋盘内角点数
 		//1.0f  // 图像放大比例因子，以防图像太小检测不到角点
@@ -30,8 +30,8 @@ int main() {
   //  }
 
   //  bool success4 =detectAndDrawCorners(
-  //      "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step1_imagresize/camR_resized",//同理
-		//"G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step2_jiancejiaodian/right_jiaodian",  //同理
+  //      "picture/build_pic/right",//同理
+		//"output/corner_detection/right",  //同理
   //      9,    // 棋盘内角点数
   //      6,    // 棋盘内角点数
 		//1.0f  // 图像放大比例因子，以防图像太小检测不到角点
@@ -48,16 +48,16 @@ int main() {
 
  //    //Step 3: 单目标定
  //   bool success1 = MonoCalibration::calibrateCamera(
- //       "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step2_jiancejiaodian/left_jiaodian/corner_data",//左图像文件夹本地地址，已存在
-	//	"G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step1_imagresize//camL_resized",//等待矫正的图像文件夹地址，用step1的图像
-	//	"G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step3_biaoding/left_calibration",//左图像标定参数文件输出地址，不存在会自动创建，存在则存入
+ //       "output/corner_detection/left/corner_data",//左图像文件夹本地地址，已存在
+	//	"picture/build_pic/left",//等待矫正的图像文件夹地址，用step1的图像
+	//	"output/calibration/left",//左图像标定参数文件输出地址，不存在会自动创建，存在则存入
  //       9,
  //       6,
  //       0.0082f,
  //       3264,
  //       2448,
  //       false,
- //       "  " // 单目标定输出校正后的图像地址，不存在会自动创建，存在则存入
+ //       "output/calibration/left_corrected" // 单目标定输出校正后的图像地址，不存在会自动创建，存在则存入
  //   );
 
  //   if (success1) {
@@ -76,9 +76,9 @@ int main() {
    //  双目标定
    // StereoCalibration::StereoCalibrationResult stereoResult =
    //     StereoCalibration::calibrateStereoCamera(
-   //         "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step2_jiancejiaodian/left_jiaodian/corner_data",//左图像文件夹本地地址，已存在
-   //         "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step2_jiancejiaodian/right_jiaodian/corner_data",//右图像文件夹本地地址，已存在
-   //         "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step4_shuangmu_biaoding/stereo_calibration",//双目标定参数文件输出地址，不存在会自动创建，存在则存入
+   //         "output/corner_detection/left/corner_data",//左图像文件夹本地地址，已存在
+   //         "output/corner_detection/right/corner_data",//右图像文件夹本地地址，已存在
+   //         "output/stereo_calibration/stereo_calibration",//双目标定参数文件输出地址，不存在会自动创建，存在则存入
 			//9, 6, 0.0082f,
 			//true,  // 使用有理畸变模型
 			//true   // 使用高精度模式
@@ -95,10 +95,10 @@ int main() {
 
  // Step 5: 三维重建
 bool success = reconstruct3DModel(
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/picture_new/build_pic/left/6.jpg",
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/picture_new/build_pic/right/6.jpg",
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step5_3D_reconstruction/3D_reconstruction",
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step4_shuangmu_biaoding/stereo_calibration.xml", // XML格式的标定文件
+    "picture/build_pic/left/6.jpg",
+    "picture/build_pic/right/6.jpg",
+    "output/3D_reconstruction/3D_reconstruction",
+    "MyProject/Calibration_Data/stereo_calibration.xml", // XML格式的标定文件
     0, // PLY格式
     0, // 不生成网格
     3, // 中等质量
@@ -111,16 +111,15 @@ bool success = reconstruct3DModel(
 
 if (success) {
     std::cout << "三维重建成功!" << std::endl;
+    //   //Step 6: 三维模型查看
+    //   
 }
 else {
     std::cerr << "三维重建失败!" << std::endl;
     return -1;
-    //   //Step 6: 三维模型查看
-    //   
-
-
-    return 0;
 }
+
+return 0;
 
 
 
