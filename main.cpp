@@ -1,4 +1,19 @@
-﻿#include "image_resize.h"
+﻿/*
+ * 三维重建程序 - MATLAB-OpenCV矩阵格式兼容性修正版本
+ * 
+ * 主要修正内容：
+ * 1. 修正了MATLAB导出的内参矩阵格式，确保主点坐标(cx,cy)正确传输到OpenCV
+ * 2. 移除了旋转矩阵的不必要转置操作
+ * 3. 确保单位一致性：平移向量(毫米)，焦距和主点(像素)
+ * 4. 验证了畸变系数按OpenCV标准顺序 [k1,k2,p1,p2,k3] 组织
+ * 
+ * 相关文件：
+ * - matlab代码.txt: 修正后的MATLAB导出代码
+ * - MyProject/Calibration_Data/stereo_calibration.xml: 修正后的标定参数
+ * - MATLAB_OpenCV_Matrix_Conversion.md: 详细的转换说明文档
+ */
+
+#include "image_resize.h"
 #include "mono_calibration.h"
 #include "stereo_calibration.h"
 #include "stereo_reconstruction.h"
@@ -94,11 +109,16 @@ int main() {
 
 
  // Step 5: 三维重建
+// 注意：使用修正后的stereo_calibration.xml文件，已解决MATLAB-OpenCV矩阵格式转换问题
+// 主要修正：
+// 1. 内参矩阵主点坐标正确包含 (cx, cy)
+// 2. 旋转矩阵移除不必要的转置操作
+// 3. 单位统一为毫米(平移向量)和像素(焦距、主点)
 bool success = reconstruct3DModel(
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/picture_new/build_pic/left/6.jpg",
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/picture_new/build_pic/right/6.jpg",
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step5_3D_reconstruction/3D_reconstruction",
-    "G:/MyAll/githubcode/recreat3D/tempcode/p2_3D/steps3/step4_shuangmu_biaoding/stereo_calibration.xml", // XML格式的标定文件
+    "picture/build_pic/left/6.jpg",   // 使用相对路径
+    "picture/build_pic/right/1.jpg",  // 使用相对路径  
+    "MyProject/3D_reconstruction",     // 输出目录
+    "MyProject/Calibration_Data/stereo_calibration.xml", // 修正后的XML标定文件
     0, // PLY格式
     0, // 不生成网格
     3, // 中等质量
