@@ -1,3 +1,0 @@
-/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/build/CMakeFiles/stereo_vision.dir
-/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/build/CMakeFiles/edit_cache.dir
-/home/runner/work/mat_VC2022_2Dto3D/mat_VC2022_2Dto3D/build/CMakeFiles/rebuild_cache.dir
